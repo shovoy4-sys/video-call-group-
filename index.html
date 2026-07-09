@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>ভিডিও কল ল্যান্ডিং</title>
+  <!-- Font Awesome Icons (v6 free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f9f9ff 0%, #eef1fa 100%);
+      min-height: 100vh;
+      padding: 2rem 1rem 3rem;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* header / page title */
+    .page-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .page-header h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+      padding: 0 1rem;
+    }
+
+    .page-header h1 i {
+      background: none;
+      -webkit-text-fill-color: #ff6b6b;
+      margin-right: 10px;
+    }
+
+    .page-header p {
+      color: #4a4a6a;
+      font-size: 1.1rem;
+      margin-top: 6px;
+      opacity: 0.8;
+    }
+
+    /* card grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem 1.5rem;
+      justify-content: center;
+    }
+
+    /* individual card */
+    .card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-radius: 32px;
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15), 0 4px 18px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.3s;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 50px -18px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      background: #d9d9e6;
+      transition: transform 0.4s;
+    }
+
+    .card:hover .card-img {
+      transform: scale(1.01);
+    }
+
+    .card-body {
+      padding: 1.2rem 1rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      flex: 1;
+    }
+
+    /* button group */
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-top: 0.2rem;
+    }
+
+    /* animated video call button */
+    .btn-video {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.9rem 0.5rem;
+      border-radius: 60px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 20px rgba(238, 90, 36, 0.3);
+      letter-spacing: 0.3px;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      text-align: center;
+    }
+
+    .btn-video i {
+      font-size: 1.1rem;
+      transition: transform 0.3s;
+    }
+
+    /* animate: pulse + glow + float */
+    .btn-video {
+      animation: videoPulse 2.4s infinite ease-in-out;
+    }
+
+    @keyframes videoPulse {
+      0% { transform: scale(1); box-shadow: 0 8px 20px rgba(238, 90, 36, 0.3); }
+      50% { transform: scale(1.02); box-shadow: 0 12px 30px rgba(238, 90, 36, 0.55); }
+      100% { transform: scale(1); box-shadow: 0 8px 20px rgba(238, 90, 36, 0.3); }
+    }
+
+    .btn-video::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -20%;
+      width: 140%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+
+    .btn-video:hover {
+      animation-play-state: paused;
+      transform: scale(1.04);
+      background: linear-gradient(135deg, #ff7a5a, #d35400);
+      box-shadow: 0 10px 28px rgba(238, 90, 36, 0.6);
+    }
+
+    .btn-video:hover i {
+      transform: rotate(-10deg) scale(1.1);
+    }
+
+    .btn-video:active {
+      transform: scale(0.96);
+    }
+
+    /* secondary button : বিডিও গুলো দেখুন */
+    .btn-bid {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(30, 30, 60, 0.08);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      color: #1e1e3a;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.7rem 0.5rem;
+      border-radius: 60px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      width: 100%;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+    }
+
+    .btn-bid i {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      transition: transform 0.2s;
+    }
+
+    .btn-bid:hover {
+      background: #ffffff;
+      border-color: #302b63;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .btn-bid:hover i {
+      transform: translateX(4px);
+      opacity: 1;
+    }
+
+    .btn-bid:active {
+      transform: scale(0.96);
+    }
+
+    /* spacing */
+    .card-footer {
+      margin-top: auto;
+    }
+
+    /* small watermark or extra */
+    .footer-note {
+      text-align: center;
+      margin-top: 3.5rem;
+      color: #6b6b8a;
+      font-size: 0.9rem;
+      opacity: 0.6;
+      letter-spacing: 0.4px;
+      border-top: 1px solid rgba(0,0,0,0.03);
+      padding-top: 2rem;
+    }
+
+    /* responsive */
+    @media (max-width: 480px) {
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+      .card-grid {
+        gap: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- header -->
+  <div class="page-header">
+    <h1><i class="fas fa-video"></i>🥵 ভিডিও কল গ্রুপ 🥵</h1>
+    <p><i class="fas fa-circle" style="color: #ff6b6b; font-size: 0.6rem; vertical-align: middle;"></i> প্রতিটি কার্ডে এনিমেটেড বাটন</p>
+  </div>
+
+  <!-- grid cards -->
+  <div class="card-grid" id="cardGrid">
+    <!-- cards will be injected via JS -->
+  </div>
+
+  <div class="footer-note">
+    <i class="fas fa-phone-alt" style="margin-right: 6px;"></i> 
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ---------- Provided Image Links (7 images) ----------
+    const imageLinks = [
+      "https://i.ibb.co.com/d4YZ0yfD/images-15.jpg",
+      "https://i.ibb.co.com/Ng7dVv2v/IMG-20260311-190406-589.jpg",
+      "https://i.ibb.co.com/67C9CkNM/images-10.jpg",
+      "https://i.ibb.co.com/pv2GycX8/images-8.jpg",
+      "https://i.ibb.co.com/mFvWYGjv/images-7.jpg",
+      "https://i.ibb.co.com/VpmNXqCF/images-5.jpg",
+      "https://i.ibb.co.com/1Y6nBxnD/images-3.jpg"
+    ];
+
+    // ---------- Provided Button Links (3 links, will cycle) ----------
+    const videoLinks = [
+      "https://omg10.com/4/9717825",
+      "https://omg10.com/4/9429975",
+      "https://omg10.com/4/9446627"
+    ];
+
+    // we need 10 cards, but we have only 7 images -> we'll duplicate some (or cycle)
+    // we want exactly 10 cards, so we'll repeat images in a cycle and also cycle video links.
+    const TOTAL_CARDS = 10;
+
+    // function to get image url by index (cycle through 7 images)
+    function getImageUrl(index) {
+      return imageLinks[index % imageLinks.length];
+    }
+
+    // function to get video link by index (cycle through 3 links)
+    function getVideoLink(index) {
+      return videoLinks[index % videoLinks.length];
+    }
+
+    // get the container
+    const grid = document.getElementById('cardGrid');
+    if (!grid) return;
+
+    // clear any placeholder
+    grid.innerHTML = '';
+
+    // Build cards
+    for (let i = 0; i < TOTAL_CARDS; i++) {
+      const imgSrc = getImageUrl(i);
+      const videoUrl = getVideoLink(i);
+      // bid link: we can use same as video or different? requirement: "এর বিডিও গুলো দেখুন" -> we'll also use same video link 
+      // but you mentioned "এর বিডিও গুলো দেখুন" and "ছবির নিচে নির্দিষ্ট লিংক বসানো যাবে" — both buttons can have same or different links.
+      // For diversity, we use videoUrl for video call, and for bid we use a different one (cycle through same set)
+      // but we can also use same. To be safe, we use videoUrl for both (since both point to omg10 links) 
+      // or we can alternate. I'll set bid link also to videoUrl (you can change if needed).
+      const bidUrl = videoUrl; // as per instruction "এই লিংক গুলো বাটন এবং ছবির নিচে বসিয়ে দিবেন" 
+
+      // Create card element
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      // image
+      const img = document.createElement('img');
+      img.src = imgSrc;
+      img.alt = `ছবি ${i+1}`;
+      img.className = 'card-img';
+      img.loading = 'lazy';
+
+      // body
+      const body = document.createElement('div');
+      body.className = 'card-body';
+
+      // button group
+      const btnGroup = document.createElement('div');
+      btnGroup.className = 'btn-group';
+
+      // ---- Video Call Button (animated) ----
+      const videoBtn = document.createElement('a');
+      videoBtn.href = videoUrl;
+      videoBtn.target = '_blank';
+      videoBtn.rel = 'noopener noreferrer';
+      videoBtn.className = 'btn-video';
+      videoBtn.innerHTML = `<i class="fas fa-video"></i> ভিডিও কল করুন`;
+      // optional: add a small pulse dot
+      // videoBtn.style.position = 'relative';
+
+      // ---- বিডিও গুলো দেখুন Button ----
+      const bidBtn = document.createElement('a');
+      bidBtn.href = bidUrl;
+      bidBtn.target = '_blank';
+      bidBtn.rel = 'noopener noreferrer';
+      bidBtn.className = 'btn-bid';
+      bidBtn.innerHTML = `<i class="fas fa-eye"></i> এর বিডিও গুলো দেখুন`;
+
+      // append buttons to group
+      btnGroup.appendChild(videoBtn);
+      btnGroup.appendChild(bidBtn);
+
+      // append to body
+      body.appendChild(btnGroup);
+
+      // append img and body to card
+      card.appendChild(img);
+      card.appendChild(body);
+
+      // append card to grid
+      grid.appendChild(card);
+    }
+
+    // (optional) if any image fails, fallback style
+    // also ensure that there are exactly 10 cards
+    console.log(`✅ ${TOTAL_CARDS} টি কার্ড তৈরি হয়েছে।`);
+  })();
+</script>
+
+<!-- optional: small style tweak for better button spacing -->
+<style>
+  .btn-group .btn-video, 
+  .btn-group .btn-bid {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .card-body {
+    padding-bottom: 1.2rem;
+  }
+  /* extra polish */
+  .btn-video i {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  }
+  .card-img {
+    background: #e0e0ed;
+  }
+</style>
+
+</body>
+  </html>
